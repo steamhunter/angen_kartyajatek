@@ -10,15 +10,13 @@ namespace angen_kartyajatek
     {
         Pakli pakli = new Pakli();
         Random r = new Random();
-        Card[] playerOne = new Card[32];
-        int playeronehandsize = 0;
-        Card[] playerTwo = new Card[32];
-        int playertwohandsize = 0;
+        Player playerOne = new Player();
+        Player playerTwo = new Player();
         Card adu;
         Card called;
         bool isplayeroneactive = true;
         public bool IsOver { get; set; }
-
+        Pakli calledstack = new Pakli(true);
 
         public Match()
         {
@@ -28,11 +26,10 @@ namespace angen_kartyajatek
         {
             for (int i = 0; i < 4; i++)
             {
-                playerOne[i] = pakli.GetRandomCard(r);
-                playerTwo[i] = pakli.GetRandomCard(r);
+                playerOne.Hand.AddCard(pakli.GetRandomCard(r));
+               playerTwo.Hand.AddCard( pakli.GetRandomCard(r));
             }
-            playeronehandsize = 4;
-            playertwohandsize = 4;
+           
             adu = pakli.Adu;
             called = adu;
         }
@@ -48,9 +45,9 @@ namespace angen_kartyajatek
         public string ShowPlayerOneHand()
         {
             string sv = "";
-            for (int i = 0; i < playeronehandsize; i++)
+            for (int i = 0; i < playerOne.HandSize; i++)
             {
-                sv += $"({playerOne[i].ToString()}) ";
+                sv += $"({playerOne.Hand.GetCard(i).ToString()}) ";
             }
             sv += "\n";
             return sv;
@@ -58,9 +55,9 @@ namespace angen_kartyajatek
         public string ShowPlayerTwoHand()
         {
             string sv = "";
-            for (int i = 0; i < playertwohandsize; i++)
+            for (int i = 0; i < playerTwo.HandSize; i++)
             {
-                sv += $"({playerTwo[i].ToString()}) ";
+                sv += $"({playerTwo.Hand.GetCard(i).ToString()}) ";
             }
             sv += "\n";
             return sv;
@@ -83,7 +80,7 @@ namespace angen_kartyajatek
 
             return sv;
         }
-        public void RoundProcess(string input)
+        public void RoundProcess(string input,Player player)
         {
             switch (input)
             {
@@ -91,9 +88,9 @@ namespace angen_kartyajatek
                     break;
                 
                 default:
-                    if (int.Parse(input))
+                    if (int.Parse(input)>0&&int.Parse(input)<player.HandSize)
                     {
-
+                        Card selected = player.Hand.GetCard(int.Parse(input));
                     }
                     break;
             }

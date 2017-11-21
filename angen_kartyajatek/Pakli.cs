@@ -9,7 +9,7 @@ namespace angen_kartyajatek
     class Pakli
     {
         Card[] pakli = new Card[32];
-        int reallenght = 32;
+        public int reallenght = 32;
         Symbol[] symbols = { Symbol.Ász, Symbol.Király, Symbol.Felső, Symbol.Alsó, Symbol.X, Symbol.IX, Symbol.VIII, Symbol.VII };
         Color[] colors = { Color.Piros, Color.Tök, Color.Zöld, Color.Makk };
         public Pakli()
@@ -25,7 +25,30 @@ namespace angen_kartyajatek
                
             }
         }
+        public Pakli(bool isemptyneedeed)
+        {
 
+        }
+
+        public void AddCard(Card card)
+        {
+            if (reallenght + 1 > pakli.Length)
+            {
+                pakli[reallenght] = card;
+                reallenght++;
+            }
+            else
+            {
+                Card[] newpakli = new Card[pakli.Length * 2];
+                for (int i = 0; i < reallenght; i++)
+                {
+                    newpakli[i] = pakli[i];
+                }
+                newpakli[reallenght] = card;
+                reallenght++;
+                pakli = newpakli;
+            }
+        }
         public Card GetRandomCard(Random r)
         {
             int index = r.Next(reallenght);
@@ -49,6 +72,11 @@ namespace angen_kartyajatek
                 RemoveAtIndex(17 - 8);
                 return card;
             }
+        }
+
+        public Card GetCard(int index)
+        {
+            throw new NotImplementedException();
         }
     }
 }
