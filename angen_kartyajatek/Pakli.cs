@@ -32,7 +32,7 @@ namespace angen_kartyajatek
 
         public void AddCard(Card card)
         {
-            if (reallenght + 1 > pakli.Length)
+            if (reallenght + 1 < pakli.Length)
             {
                 pakli[reallenght] = card;
                 reallenght++;
@@ -76,7 +76,9 @@ namespace angen_kartyajatek
 
         public Card GetCard(int index)
         {
-            throw new NotImplementedException();
+            
+            return pakli[index];
+
         }
     }
 }
