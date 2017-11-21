@@ -10,8 +10,8 @@ namespace angen_kartyajatek
     {
         Pakli pakli = new Pakli();
         Random r = new Random();
-        Player playerOne = new Player();
-        Player playerTwo = new Player();
+       public Player playerOne = new Player();
+       public Player playerTwo = new Player();
         Card adu;
         Card called;
         bool isplayeroneactive = true;

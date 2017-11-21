@@ -15,7 +15,7 @@ namespace angen_kartyajatek
             do
             {
                 Console.WriteLine(match.RoundText());
-                match.RoundProcess(Console.ReadLine());
+                match.RoundProcess(Console.ReadLine(),match.playerOne);
             } while (!match.IsOver);
             
         }
