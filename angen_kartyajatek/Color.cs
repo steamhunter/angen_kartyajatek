@@ -11,7 +11,8 @@ namespace angen_kartyajatek
         Piros,
         Tök,
         Zöld,
-        Makk
+        Makk,
+        nincs
 
     }
 }

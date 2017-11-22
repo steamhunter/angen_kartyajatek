@@ -2,36 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace angen_kartyajatek
 {
+    enum Winner
+    {
+        caller,
+        called
+    }
     class Match
     {
         Pakli pakli = new Pakli();
         Random r = new Random();
-       public Player playerOne = new Player();
-       public Player playerTwo = new Player();
+        Player playerOne;
+        Player playerTwo;
+
         Card adu;
         Card called;
-        bool isplayeroneactive = true;
+        public bool isplayeroneactive = true;
+        bool isRoundStart = true;
         public bool IsOver { get; set; }
-        Pakli calledstack = new Pakli(true);
+        public string OverText;
+        public Winner winner;
+        //Pakli calledstack = new Pakli(true);
 
-        public Match()
+        public Match(Player playerOne,Player playerTwo)
         {
-
+            this.playerOne = playerOne;
+            this.playerTwo = playerTwo;
+          /*  int seed = r.Next(10000000,9999999+1);
+            Console.WriteLine(seed);
+            r = new Random(seed);*/
         }
         public void StartMatch()
         {
             for (int i = 0; i < 4; i++)
             {
-                playerOne.Hand.AddCard(pakli.GetRandomCard(r));
-               playerTwo.Hand.AddCard( pakli.GetRandomCard(r));
+                playerOne.Hand.AddCard(pakli.PullRandomCard(r));
+               playerTwo.Hand.AddCard( pakli.PullRandomCard(r));
             }
            
             adu = pakli.Adu;
-            called = adu;
+            called = new Card(Symbol.kártya,Color.nincs);
         }
 
         public string ActualState()
@@ -68,12 +82,12 @@ namespace angen_kartyajatek
             string sv = "";
             if (isplayeroneactive)
             {
-                sv += $"{ActualState()}\naz első játékos jön \n{ShowPlayerOneHand()}";
+                sv += $"{ActualState()}\n{playerOne.Name} jön \n{ShowPlayerOneHand()}";
 
             }
             else
             {
-                sv += $"{ActualState()}\na második játékos jön \n{ShowPlayerTwoHand()}";
+                sv += $"{ActualState()}\n{playerTwo.Name} jön \n{ShowPlayerTwoHand()}";
             }
             sv += "adjon meg egy kártyát ütéshez(hanyadik lap) vagy egy érvényes utasítást(felad,csere)";
 
@@ -85,12 +99,45 @@ namespace angen_kartyajatek
             switch (input)
             {
                 case "felad":IsOver = true;
+                    
                     break;
                 
                 default:
-                    if (int.Parse(input)>0&&int.Parse(input)<player.HandSize)
+                    if (int.Parse(input)-1>=0&&int.Parse(input)-1<player.HandSize)
                     {
-                        Card selected = player.Hand.GetCard(int.Parse(input));
+                        Card selected = player.Hand.PullCard(int.Parse(input)-1);
+                        if (isRoundStart)
+                        {
+                            called = selected;
+                         
+                           
+                        }
+                        else
+                        {
+                          
+                            if (selected.Color != called.Color && selected.Color != adu.Color)
+                            {
+                               OverText=$" nem egyezö szimbolum vagy szín a hívott lappal {playerOne.Name} nyert";
+                                winner = Winner.caller;
+                                IsOver = true;
+                            }else
+                            if (called.Symbol<selected.Symbol)
+                            {
+                                IsOver = true;
+                                winner = Winner.caller;
+                               OverText=$"{playerOne.Name} nyert";
+                            }
+                            else
+                            {
+                                IsOver = true;
+                                winner = Winner.called;
+                                OverText=$"{playerTwo.Name} nyert";
+                            }
+                        }
+                       
+                        isplayeroneactive = !isplayeroneactive;
+                        if (isRoundStart)
+                            isRoundStart = false;
                     }
                     break;
             }

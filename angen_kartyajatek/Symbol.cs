@@ -15,7 +15,8 @@ namespace angen_kartyajatek
         X,
         IX,
         VIII,
-        VII
+        VII,
+        kártya
 
     }
 }

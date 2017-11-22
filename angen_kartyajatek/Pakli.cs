@@ -27,6 +27,8 @@ namespace angen_kartyajatek
         }
         public Pakli(bool isemptyneedeed)
         {
+            pakli = new Card[0];
+            reallenght = 0;
 
         }
 
@@ -39,7 +41,7 @@ namespace angen_kartyajatek
             }
             else
             {
-                Card[] newpakli = new Card[pakli.Length * 2];
+                Card[] newpakli = new Card[pakli.Length > 0 ? pakli.Length * 2: 1];
                 for (int i = 0; i < reallenght; i++)
                 {
                     newpakli[i] = pakli[i];
@@ -49,7 +51,7 @@ namespace angen_kartyajatek
                 pakli = newpakli;
             }
         }
-        public Card GetRandomCard(Random r)
+        public Card PullRandomCard(Random r)
         {
             int index = r.Next(reallenght);
             Card card = pakli[index];
@@ -79,6 +81,13 @@ namespace angen_kartyajatek
             
             return pakli[index];
 
+        }
+
+        public Card PullCard(int index)
+        {
+            Card card = pakli[index];
+            RemoveAtIndex(index);
+            return card;
         }
     }
 }
