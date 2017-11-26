@@ -61,12 +61,20 @@ namespace angen_kartyajatek
                 playerOne.ClearPakli();
                 playerTwo.ClearPakli();
                 Console.WriteLine(match.OverText);
-                Console.WriteLine("ENTER a következö körhöz vagy (kilep) a kilépéshez");
-                string endtext=Console.ReadLine();
-                if (endtext=="kilep")
+                if (match.IsOver&&!match.ForcedOver)
+                {
+                    Console.WriteLine("ENTER a következö körhöz vagy (kilep) a kilépéshez");
+                    string endtext = Console.ReadLine();
+                    if (endtext == "kilep")
+                    {
+                        end = true;
+                    }
+                }
+                else
                 {
                     end = true;
                 }
+                
             }
             streamWriter.Close();
         }
@@ -92,7 +100,7 @@ namespace angen_kartyajatek
                     sorc++;
                     sor = streamReader.ReadLine();
                     Console.WriteLine(sor);
-                } while (sor!="");
+                } while (sor!=""&&sor != null);
                 if (sorc<3)
                 {
                     Console.WriteLine("ENTER a másik játékoshoz");
@@ -103,6 +111,7 @@ namespace angen_kartyajatek
                     Console.WriteLine("ENTER a következö körhöz");
                 }
                 Console.ReadLine();
+
                 Console.Clear();
             }
            
